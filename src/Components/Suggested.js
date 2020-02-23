@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import logo from "../images/logo.png";
 import { FaEllipsisH, FaEllipsisV } from "react-icons/fa";
-import Modal from "react-bootstrap/Modal";
 
 const styles = theme => ({
   box: {
@@ -68,24 +67,6 @@ class Suggested extends Component {
     alert("dots");
   };
 
-  handleClose = () => this.setState({ modal: false });
-  handleShow = () => {
-    console.log("Show");
-    this.setState({ modal: true });}
-
-  handleModal = () => {
-    console.log("handleModal");
-    return (
-      <Modal show={this.modal} onHide={this.handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal>
-    );
-  };
-
   render() {
     const { classes } = this.props;
     return (
@@ -95,15 +76,6 @@ class Suggested extends Component {
         </div>
         <div className={classes.text}>
           <FaEllipsisV className={classes.dots} onClick={this.handleShow} />
-          <Modal show={this.modal} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              Woohoo, you're reading this text in a modal!
-            </Modal.Body>
-            <Modal.Footer></Modal.Footer>
-          </Modal>
           <p className={classes.headline}>
             Global Warming - Your Responsibility
           </p>
