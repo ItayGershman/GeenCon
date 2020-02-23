@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import logo from "../images/logo.png";
 import { FaEllipsisH, FaEllipsisV } from "react-icons/fa";
-// import Modal from "react-bootstrap/Modal";
 
 const styles = theme => ({
   box: {
@@ -67,8 +66,6 @@ class Suggested extends Component {
   dots = () => {
     alert("dots");
   };
-
-
   render() {
     const { classes } = this.props;
     return (

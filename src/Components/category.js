@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import logo from "../images/logo.png";
+import 'typeface-poppins';
 
 
 const styles = theme => ({
@@ -13,18 +14,21 @@ const styles = theme => ({
     marginTop:30
   },
   elementText: {
-    fontFamily: "Poppins",
-    fontStyle: "normal",
-    fontWeight: "bold",
-    fontSize: "16px",
-    lineHeight: "24px",
-    background: "linear-gradient(179.52deg, #74FF82 -13.56%, #1949F5 158.3%)",
-    textAlign:'center'
+    background: 'linear-gradient(179.52deg, #74FF82 -13.56%, #1949F5 158.3%)',
+    "-webkit-background-clip": 'text',
+   "-webkit-text-fill-color": 'transparent',
+    left: '415px',
+    top: '496.08px',
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: 'bold',
+    fontSize: '16px',
+    lineHeight: '24px',
   },
   elementImage: {
     width: 150,
     height: 150,
-  }
+  },
 });
 
 class Tip extends Component {

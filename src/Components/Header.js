@@ -30,11 +30,11 @@ const styles = theme => ({
     height: 40,
     marginLeft: 422,
     marginTop: 21,
-    borderRadius: 100,
-    borderColor:'linear-gradient(179.64deg, #74FF82 -13.56%, #1949F5 158.3%)'
+    borderRadius: 80, 
+    borderColor: 'linear-gradient(179.64deg,#74FF82 -13.56%, #1949F5 158.3%)',
   },
   searchIcon: {
-    marginRight: 20
+    marginRight: 20,
   },
   avatar:{
       verticalAlign:'middle',
@@ -70,7 +70,7 @@ class Header extends Component {
   }
 
   imagePress = ()=>{
-      alert("name pressed");
+      // alert("name pressed");
   }
 
   render() {

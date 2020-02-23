@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
+
 import { List, ListItem, ListItemText } from "@material-ui/core";
 import {
   FaHome,
@@ -24,9 +25,6 @@ const styles = theme => ({
   fields: {
     paddingTop: 0,
     marginBottom: 40,
-    "&:hover": {
-      background: "linear-gradient(179.64deg, #74FF82 -13.56%, #1949F5 158.3%)"
-    }
   },
   icons: {
     marginRight: 20,
@@ -40,7 +38,7 @@ const styles = theme => ({
   links: {
     textDecoration: "none",
     flex: "1 1 auto",
-    color: "inherit"
+    color: "inherit",
   },
   text: {
     marginLeft: 80,
@@ -57,6 +55,7 @@ const styles = theme => ({
 class Nav extends Component {
   constructor(props) {
     super(props);
+    console.log(props)
   }
 
   render() {
@@ -71,7 +70,7 @@ class Nav extends Component {
             <Link to="/" className={classes.links}>
               Home
             </Link>
-            <FaCircle className={classes.notify} className={classes.notify} />
+            {/* <FaCircle className={classes.notify} className={classes.notify} /> */}
           </ListItem>
           <ListItem button className={classes.fields}>
             <FaRegFlushed className={classes.icons} />
@@ -156,7 +155,7 @@ class Nav extends Component {
 
 function Homepage() {
   return (
-    <div style={{justifyContent:'flex-end'}}>
+    <div style={{ justifyContent: 'flex-end' }}>
       <Home
         page={"Home page"}
         secondTitle={"Suggested for you"}
