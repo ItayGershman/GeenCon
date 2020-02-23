@@ -9,18 +9,23 @@ import Tip from "./Components/Tip";
 import Calendar from "./Components/Calendar";
 import Main from "./Components/Home";
 import Footer from "./Components/Footer";
+
+import axios from 'axios';
+import NoiseHazard from './images/NoiseHazard.png';
+import AirPollution from './images/AirPollution.png';
+import waterPollution from './images/waterPollution.png';
+import liquidWaste from './images/liquidWaste.png';
+import solidWaste from './images/solidWaste.png';
+import radiation from './images/radiation.png';
 import EventMenu from './Components/EventMenu';
 import MobileHeader from './MobileComponents/MobileHeader'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
 import MobileUpperNav from './MobileComponents/MobileUpperNav';
+
 
 const useStyles = makeStyles({
   page: {
     background: "#E5E5E5",
-    width: "100%",
-    height: "100%"
   },
   main: {
     display: "flex"
@@ -28,22 +33,28 @@ const useStyles = makeStyles({
 });
 const categories = [
   {
-    name: "Air pollution"
+    name: "Global warming",
+    img: radiation
   },
   {
-    name: "Radiation damage"
+    name: "Recycle issues",
+    img: liquidWaste
   },
   {
-    name: "Liquid waste"
+    name: "Recycle",
+    img: solidWaste
   },
   {
-    name: "water pollution"
+    name: "water pollution",
+    img: waterPollution
   },
   {
-    name: "Solid waste"
+    name: "Air pollution",
+    img: AirPollution
   },
   {
-    name: "Noise hazards"
+    name: "Noise hazards",
+    img: NoiseHazard
   }
 ];
 localStorage.setItem('categories', JSON.stringify(categories));
@@ -53,7 +64,7 @@ const App = (props) => {
   const [conventios, setConventions] = useState([]);
   const [didFetch, setDidFetch] = useState(false);
   const matches = useMediaQuery('(min-width:415px)');
-
+      
   const fetchData = async () => {
     try {
       const results = await axios.get(`https://hands-app.herokuapp.com/post/showAllPosts`)

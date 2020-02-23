@@ -37,6 +37,7 @@ const styles = theme => ({
 class Main extends Component {
   constructor(props) {
     super(props);
+    console.log(props.categories);
   }
 
   render() {
@@ -52,13 +53,15 @@ class Main extends Component {
           </div>
           <div style={{ display: "flex"}}>
             <div style={{marginTop:30}}>
-              <Suggested />
+              {this.props.categories}
+              {/* <Suggested name={this.props.categories.conventions.title}/> */}
             </div>
             <div style={{marginTop:30}}>
               <Suggested />
             </div>
           </div>
-          <Categories />
+          {console.log(this.props)}
+          <Categories categories={this.props.categories}/>
         </div>
         <div className={classes.tipsElement}>
             <Tip />
