@@ -36,16 +36,14 @@ class Categories extends Component {
   render() {
     const { classes } = this.props;
     return (
-        
         <div>
             <p className={classes.title}><b>Categories</b></p>
             <div className={classes.categories}>
-                <Category />
-                <Category />
-                <Category />
-                <Category />
-                <Category />
-                <Category />
+              {console.log(this.props)}
+              {this.props.categories.categories.map(category =>{
+                return (
+                <Category name={category.name} img={category.img}/>
+              )})}
             </div>
         </div>
     );

@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./Home";
+import Convention from "./Conventions";
 
 const styles = theme => ({
   list: {
@@ -71,7 +72,7 @@ class Nav extends Component {
             <Link to="/" className={classes.links}>
               Home
             </Link>
-            <FaCircle className={classes.notify} className={classes.notify} />
+            <FaCircle className={classes.notify} />
           </ListItem>
           <ListItem button className={classes.fields}>
             <FaRegFlushed className={classes.icons} />
@@ -124,7 +125,7 @@ class Nav extends Component {
         </List>
         <Switch>
           <Route exact path="/">
-            <Homepage />
+            <Homepage categories={this.props.state}  />
           </Route>
           <Route path="/Conventions">
             <Conventions />
@@ -154,10 +155,11 @@ class Nav extends Component {
   }
 }
 
-function Homepage() {
+function Homepage(props) {
   return (
-    <div style={{justifyContent:'flex-end'}}>
+    <div style={{ justifyContent: "flex-end" }}>
       <Home
+        categories={props.categories}
         page={"Home page"}
         secondTitle={"Suggested for you"}
         style={{ display: "flex" }}
@@ -169,7 +171,11 @@ function Homepage() {
 function Conventions() {
   return (
     <div>
-      <Home page={"Convention"} secondTitle={"Last Search"} />
+      <Convention
+        page={"Conventions"}
+        secondTitle={"Last search"}
+        style={{ display: "flex" }}
+      />
     </div>
   );
 }

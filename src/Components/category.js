@@ -9,7 +9,7 @@ const styles = theme => ({
     height: 200,
     width: 150,
     background:'#FFFFFF',
-    marginLeft:15,
+    marginLeft:50,
     marginTop:30
   },
   elementText: {
@@ -24,6 +24,7 @@ const styles = theme => ({
   elementImage: {
     width: 150,
     height: 150,
+    marginTop:25
   }
 });
 
@@ -33,12 +34,12 @@ class Tip extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes,name } = this.props;
     return (
         <div className={classes.element}>
             <div >
-                <p className={classes.elementText}>Air pollution</p>
-                <img style={{width:150}}className={classes.elementImage } src={logo}></img>
+              <p className={classes.elementText}>{name}</p>
+                <img style={{width:150}}className={classes.elementImage } src={this.props.img}></img>
             </div>
             
         </div>

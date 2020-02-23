@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import logo from "../images/logo.png";
 import { FaEllipsisH, FaEllipsisV } from "react-icons/fa";
-// import Modal from "react-bootstrap/Modal";
+import Modal from 'react-modal';
+import EventMenu from './EvenetMenu';
 
 const styles = theme => ({
   box: {
@@ -11,7 +12,8 @@ const styles = theme => ({
     height: 164,
     marginLeft: 67,
     background: "#FFFFFF",
-    display: "flex"
+    display: "flex",
+    position:'relative'
   },
   image: {
     backgroundImage: `url('${logo}') `,
@@ -60,7 +62,8 @@ class Suggested extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
+      dotsClicked:false
     };
   }
 
@@ -69,17 +72,24 @@ class Suggested extends Component {
   };
 
 
+  dotsClicked = () =>{
+    this.setState({dotsClicked:false});
+  }
+
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.box}>
+      <div
+        className={classes.box}
+      >
         <div>
-          <img className={classes.image}></img>
+          <img className={classes.image} alt=""></img>
         </div>
         <div className={classes.text}>
-          <FaEllipsisV className={classes.dots} onClick={this.handleShow} />
+          <FaEllipsisV className={classes.dots} onClick={()=>(this.setState({dotsClicked: true}))} />
+          {this.state.dotsClicked === true ? <EventMenu clicked={this.dotsClicked}/> : ''}
           <p className={classes.headline}>
-            Global Warming - Your Responsibility
+            {this.props.title}
           </p>
           <p className={classes.lecturer}>By Dr.Itay Dagan</p>
           <div>
