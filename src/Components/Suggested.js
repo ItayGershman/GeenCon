@@ -66,7 +66,6 @@ class Suggested extends Component {
   dots = () => {
     alert("dots");
   };
-
   render() {
     const { classes } = this.props;
     return (
