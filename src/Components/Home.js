@@ -17,6 +17,15 @@ const styles = theme => ({
     lineHeight: '24px',
     color: '#858585'
   },
+  textBread: {
+    marginLeft: 80,
+    marginTop: 30,
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontSize: '12px',
+    lineHeight: '24px',
+    color: '#858585'
+  },
   elements: {
     display: "flex"
   },
@@ -36,7 +45,7 @@ class Main extends Component {
     return (
       <div style={{display:'flex',height:'2000px'}}>
         <div >
-          <div className={classes.text}>
+          <div className={classes.textBread}>
             <p>{this.props.page}</p>
           </div>
           <div className={classes.text}>

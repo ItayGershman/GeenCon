@@ -10,8 +10,21 @@ const styles = theme => ({
     marginLeft: 55,
     marginTop: 20,
     background: "#FFFFFF",
-    // border: "1px solid #F0F0F0",
-    borderRadius: "10px"
+    borderRadius: "10px",
+    '& .day-headers': {
+      background: 'linear-gradient(179.52deg, #74FF82 -13.56%, #1949F5 158.3%)',
+      "-webkit-background-clip": 'text',
+      "-webkit-text-fill-color": 'transparent',
+    },
+    '& .flex-2':{
+      background: 'linear-gradient(179.52deg, #74FF82 -13.56%, #1949F5 158.3%)',
+    },
+    '& .selected':{
+      color: 'white',
+    }
+  },
+  calendarStyle: {
+
   }
 });
 
@@ -20,11 +33,12 @@ class CalendarElement extends Component {
     super(props);
   }
 
+
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.box}>
-        <Calendar
+        <Calendar className={classes.calendarStyle}
           accentColor={"rgb(0, 193, 166)"}
           orientation={"flex-col"}
           showHeader={true}

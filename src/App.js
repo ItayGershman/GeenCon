@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import Header from "./Components/Header";
@@ -9,15 +9,21 @@ import Tip from "./Components/Tip";
 import Calendar from "./Components/Calendar";
 import Main from "./Components/Home";
 import Footer from "./Components/Footer";
-import axios from 'axios'
+
+import axios from 'axios';
 import NoiseHazard from './images/NoiseHazard.png';
 import AirPollution from './images/AirPollution.png';
 import waterPollution from './images/waterPollution.png';
 import liquidWaste from './images/liquidWaste.png';
 import solidWaste from './images/solidWaste.png';
 import radiation from './images/radiation.png';
+import EventMenu from './Components/EventMenu';
+import MobileHeader from './MobileComponents/MobileHeader'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import MobileUpperNav from './MobileComponents/MobileUpperNav';
 
-const styles = theme => ({
+
+const useStyles = makeStyles({
   page: {
     background: "#E5E5E5",
   },
@@ -25,7 +31,6 @@ const styles = theme => ({
     display: "flex"
   }
 });
-
 const categories = [
   {
     name: "Global warming",
@@ -52,52 +57,60 @@ const categories = [
     img: NoiseHazard
   }
 ];
-
-localStorage.setItem('categories',JSON.stringify(categories));
-
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      categories: [],
-      conventions:[]
-    };
-
-
+localStorage.setItem('categories', JSON.stringify(categories));
+const App = (props) => {
+  const classes = useStyles();
+  const [acategories, setCategories] = useState([]);
+  const [conventios, setConventions] = useState([]);
+  const [didFetch, setDidFetch] = useState(false);
+  const matches = useMediaQuery('(min-width:415px)');
+      
+  const fetchData = async () => {
+    try {
+      const results = await axios.get(`https://hands-app.herokuapp.com/post/showAllPosts`)
+      console.log(results)
+      setConventions(results.data)
+      setDidFetch(true)
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  shouldComponentUpdate(){
+  useEffect(() => {
+    const getCategories = JSON.parse(localStorage.getItem(categories));
+    setCategories(categories);
+    fetchData();
+  }, [])
 
-    //get Conventions
-    let conventions;
-    axios.get(`https://greencon.herokuapp.com/admin/getAllConventions`)
-      .then(res => {
-        conventions = res.data;
-        this.setState({ conventions:conventions });
-      });
-      console.log(conventions);
-      const getCategories = JSON.parse(localStorage.getItem('categories'));
-    this.setState({categories:getCategories});
 
-  }
-
-  render() {
-    const { classes } = this.props;
+  if (matches === true && didFetch) {
     return (
       <div className={classes.page}>
         <Header />
+        <EventMenu />
         <div className={classes.main}>
-          {/* {console.log(this.state.conventions)} */}
-          <Nav state={this.state.conventions[0]}/>
+          <Nav appCategories={acategories} appConventions={conventios} />
         </div>
         <Footer style={{ flexWrap: "nowrap" }} />
       </div>
     );
   }
+  else if (didFetch) {
+    return (
+      <div>
+        <MobileHeader />
+        <MobileUpperNav />
+      </div>
+
+    )
+  } else return null;
+
 }
 
-App.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
-export default withStyles(styles)(App);
+
+// App.propTypes = {
+//   classes: PropTypes.object.isRequired
+// };
+
+export default App;
