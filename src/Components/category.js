@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
-import logo from "../images/logo.png";
 import 'typeface-poppins';
 
 
@@ -30,12 +29,9 @@ const styles = theme => ({
     height: 150,
     marginTop:25
   }
-
-  },
-
 });
 
-class Tip extends Component {
+class Category extends Component {
   constructor(props) {
     super(props);
   }
@@ -54,8 +50,8 @@ class Tip extends Component {
   }
 }
 
-Tip.propTypes = {
+Category.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Tip);
+export default withStyles(styles)(Category);

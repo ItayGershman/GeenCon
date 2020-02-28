@@ -1,116 +1,148 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/styles";
 import Header from "./Components/Header";
 import Nav from "./Components/Nav";
-import Suggested from "./Components/Suggested";
-import Categories from "./Components/Categories";
-import Tip from "./Components/Tip";
-import Calendar from "./Components/Calendar";
-import Main from "./Components/Home";
 import Footer from "./Components/Footer";
-
-import axios from 'axios';
-import NoiseHazard from './images/NoiseHazard.png';
-import AirPollution from './images/AirPollution.png';
-import waterPollution from './images/waterPollution.png';
-import liquidWaste from './images/liquidWaste.png';
-import solidWaste from './images/solidWaste.png';
-import radiation from './images/radiation.png';
-import EventMenu from './Components/EventMenu';
-import MobileHeader from './MobileComponents/MobileHeader'
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Login from "./Components/Login";
+import axios from "axios";
+import MobileHeader from "./MobileComponents/MobileHeader";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import CheckboxesCategory from "./Components/CheckboxesCategory";
+import {categories} from './Constants/Consts';
+import moment from "moment";
 import MobileUpperNav from './MobileComponents/MobileUpperNav';
-
+import SimpleBottomNavigation from './MobileComponents/MobileBottomNav';
+import MobileBody from './MobileComponents/MobileBody';
+import MobileForm from "./MobileComponents/MobileForm";
 
 const useStyles = makeStyles({
   page: {
-    background: "#E5E5E5",
+    background: "#FFF9FE",
+    height:'100%'
   },
   main: {
     display: "flex"
   }
 });
-const categories = [
-  {
-    name: "Global warming",
-    img: radiation
-  },
-  {
-    name: "Recycle issues",
-    img: liquidWaste
-  },
-  {
-    name: "Recycle",
-    img: solidWaste
-  },
-  {
-    name: "water pollution",
-    img: waterPollution
-  },
-  {
-    name: "Air pollution",
-    img: AirPollution
-  },
-  {
-    name: "Noise hazards",
-    img: NoiseHazard
-  }
-];
-localStorage.setItem('categories', JSON.stringify(categories));
-const App = (props) => {
+localStorage.setItem("categories", JSON.stringify(categories));
+const App = props => {
   const classes = useStyles();
   const [acategories, setCategories] = useState([]);
-  const [conventios, setConventions] = useState([]);
+  const [conventions, setConventions] = useState([]);
   const [didFetch, setDidFetch] = useState(false);
+  const [logged, setLogged] = useState(false);
+  const [user, setUser] = useState({});
+  const [checkBoxed, setCheckBoxed] = useState(false);
+  const [categoriesChecked, setCategoriesChecked] = useState([]);
+  const [gotIsClicked, setGotIsClicked] = useState(false);
   const matches = useMediaQuery('(min-width:415px)');
-      
+
   const fetchData = async () => {
     try {
-      const results = await axios.get(`https://hands-app.herokuapp.com/post/showAllPosts`)
-      console.log(results)
-      setConventions(results.data)
-      setDidFetch(true)
+      const results = await axios.get(
+        `https://greencon.herokuapp.com/admin/getAllConventions`
+      );
+      setConventions(results.data);
+      setDidFetch(true);
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const convertCategoryName = str => {
+    let strConverted = str.replace(/([A-Z])/g, ' $1');
+    return strConverted.charAt(0).toUpperCase() + strConverted.slice(1).toLowerCase();
+  };
+
+  const onAddConvention = async (title, category, date, location, price, description) => {
+    category = convertCategoryName(category);
+    console.log(date.value);
+    const dbDate = new Date(date.value);
+    date = moment(date.value).utc().format();
+    console.log(date);
+    const params = {
+      title: title,
+      category: category,
+      start: dbDate,
+      end: dbDate,
+      location: location,
+      price: price,
+      description: description,
+      lecturerProfile: { //needs to be dynamic
+        firstName: "Chen",
+        lastName: "Gutman",
+        company: "El-Al",
+        headline: "Flight Manager",
+        email: "chen.g@gmail.com"
+      }
+    }
+    console.log(params);
+
+    const result = await axios.post(`https://greencon.herokuapp.com/creator/convention`,  params);
+    console.log(result);
+    this.setState({ newConvention: [...this.state.newConvention, result.data] })
+    //   .then(res => {
+    //     this.setState({ newConvention: [...this.state.newConvention, res.data] })
+    //   })
+    //   .catch(err => console.error(err));
+    // console.log("we did it");
+    return (
+      <MobileForm params={params}/>
+    )
   }
 
   useEffect(() => {
     const getCategories = JSON.parse(localStorage.getItem(categories));
     setCategories(categories);
     fetchData();
-  }, [])
+  }, []);
 
+  const isClicked = (flag) => {
+    setGotIsClicked(flag);
+  };
 
-  if (matches === true && didFetch) {
+  useEffect(() => {
+  }, [gotIsClicked])
+
+  
+
+  if (logged === false) {
+    return <Login logged={setLogged} user={setUser} />;
+  }
+  if (checkBoxed === false) {
+    return (
+      <CheckboxesCategory
+        checkBoxed={setCheckBoxed}
+        categoriesChecked={setCategoriesChecked}
+      />
+    );
+  }
+  if (gotIsClicked) {
+    return <MobileForm click={isClicked} onAddConvention={onAddConvention} />
+  } else if (matches === true && didFetch) {
     return (
       <div className={classes.page}>
-        <Header />
-        <EventMenu />
+        <Header user={user} />
         <div className={classes.main}>
-          <Nav appCategories={acategories} appConventions={conventios} />
+          <Nav
+            appCategories={acategories}
+            appConventions={conventions}
+            user={user}
+            categoriesChecked={categoriesChecked}
+          />
         </div>
         <Footer style={{ flexWrap: "nowrap" }} />
       </div>
     );
-  }
-  else if (didFetch) {
+  } else if (didFetch) {
     return (
-      <div>
+      <div className={classes.mobile}>
         <MobileHeader />
         <MobileUpperNav />
+        <MobileBody click={isClicked} />
+        <SimpleBottomNavigation />
       </div>
-
     )
   } else return null;
-
-}
-
-
-
-// App.propTypes = {
-//   classes: PropTypes.object.isRequired
-// };
-
+};
 export default App;

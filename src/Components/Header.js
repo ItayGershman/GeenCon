@@ -4,7 +4,8 @@ import { withStyles } from "@material-ui/styles";
 import logo from "../images/logo.png";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { FaSearch, FaRegBell } from "react-icons/fa";
-import Avatar from "../images/avatar.jpg";
+// import Avatar from "../images/avatar.jpg";
+import Avatar from '@material-ui/core/Avatar';
 
 
 const styles = theme => ({
@@ -67,6 +68,14 @@ const styles = theme => ({
 class Header extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      search:''
+    }
+  }
+
+  handleChange = () =>{
+    this.a = 1;
+    console.log(this.a);
   }
 
   imagePress = ()=>{
@@ -75,6 +84,9 @@ class Header extends Component {
 
   render() {
     const { classes } = this.props;
+    // let filteredConventions = this.props.appConventions.filter((convention) =>{
+    //   return convention.title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+    // })
     return (
       <div className={classes.page}>
         <Router>
@@ -82,14 +94,15 @@ class Header extends Component {
             <div className={classes.logo}></div>
           </Link>
         </Router>
-        
         <input
           className={classes.search}
           type="search"
           placeholder="    Search"
+          value={this.state.search}
+          onChange={this.handleChange}
         ></input>
-        <img src={Avatar} alt="Avatar" className={classes.avatar} onClick={this.imagePress}></img>
-        <p className={classes.name} onClick={this.imagePress}>Ramon Ridwan</p>
+        <span className={classes.avatar} onClick={this.imagePress}><Avatar>{this.props.user.Ad[0]}</Avatar></span>
+        <p className={classes.name} onClick={this.imagePress}>{this.props.user.Ad}</p>
         <span><FaRegBell className={classes.notification}/></span>
       </div>
     );

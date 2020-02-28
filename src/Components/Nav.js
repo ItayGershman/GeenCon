@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import { List, ListItem } from "@material-ui/core";
 import {
   FaHome,
   FaRegCalendarCheck,
@@ -12,7 +12,9 @@ import {
 } from "react-icons/fa";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./Home";
-import Convention from "./Conventions";
+import Conventions from "./Conventions";
+// import CalendarPage from './CalendarPage';
+// import CalendarP from './CalendarPage2';
 
 const styles = theme => ({
   list: {
@@ -25,7 +27,7 @@ const styles = theme => ({
   },
   fields: {
     paddingTop: 0,
-    marginBottom: 40,
+    marginBottom: 40
   },
   icons: {
     marginRight: 20,
@@ -39,7 +41,7 @@ const styles = theme => ({
   links: {
     textDecoration: "none",
     flex: "1 1 auto",
-    color: "inherit",
+    color: "inherit"
   },
   text: {
     marginLeft: 80,
@@ -56,65 +58,67 @@ const styles = theme => ({
 class Nav extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
   }
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      appCategories,
+      appConventions,
+      user,
+      categoriesChecked
+    } = this.props;
     return (
-      //   <div>
       <Router style={{ display: "flex" }}>
         <List className={classes.list} component="nav">
           <ListItem button className={classes.fields}>
             <FaHome className={classes.icons} />
-            {/* <ListItemText  className={classes.fields} /> */}
+
             <Link to="/" className={classes.links}>
               Home
             </Link>
-
-            {/* <FaCircle className={classes.notify} className={classes.notify} /> */}
           </ListItem>
           <ListItem button className={classes.fields}>
             <FaRegFlushed className={classes.icons} />
             <Link to="/Conventions" className={classes.links}>
               Conventions
             </Link>
-            <FaCircle className={classes.notify} />
+            {/* <FaCircle className={classes.notify} /> */}
           </ListItem>
           <ListItem button className={classes.fields}>
             <FaRegCalendarCheck className={classes.icons} />
             <Link to="/Schedule" className={classes.links}>
               Schedule
             </Link>
-            <FaCircle className={classes.notify} />
+            {/* <FaCircle className={classes.notify} /> */}
           </ListItem>
           <ListItem button className={classes.fields}>
             <FaRegFlushed className={classes.icons} />
             <Link to="/CreateConvention" className={classes.links}>
               Create Convention
             </Link>
-            <FaCircle className={classes.notify} />
+            {/* <FaCircle className={classes.notify} /> */}
           </ListItem>
           <ListItem button className={classes.fields}>
             <FaRecycle className={classes.icons} />
             <Link to="/RecycleFacilities" className={classes.links}>
               Recycle Facilities
             </Link>
-            <FaCircle className={classes.notify} />
+            {/* <FaCircle className={classes.notify} /> */}
           </ListItem>
           <ListItem button className={classes.fields}>
             <FaRegFlushed className={classes.icons} />
             <Link to="/Statistic" className={classes.links}>
               Statistic
             </Link>
-            <FaCircle className={classes.notify} />
+            {/* <FaCircle className={classes.notify} /> */}
           </ListItem>
           <ListItem button className={classes.fields}>
             <FaRegFlushed className={classes.icons} />
             <Link to="/Settings" className={classes.links}>
               Settings
             </Link>
-            <FaCircle className={classes.notify} />
+            {/* <FaCircle className={classes.notify} /> */}
           </ListItem>
           <ListItem button className={classes.fields}>
             <FaRegFlushed className={classes.icons} />
@@ -125,10 +129,15 @@ class Nav extends Component {
         </List>
         <Switch>
           <Route exact path="/">
-            <Homepage categories={this.props.state}  />
+            <Homepage
+              appCategories={appCategories}
+              appConventions={appConventions}
+              user={user}
+              categoriesChecked={categoriesChecked}
+            />
           </Route>
           <Route path="/Conventions">
-            <Conventions />
+            <ConventionsPage appConventions={appConventions} user={user} />
           </Route>
           <Route path="/Schedule">
             <Schedule />
@@ -157,9 +166,12 @@ class Nav extends Component {
 
 function Homepage(props) {
   return (
-    <div style={{ justifyContent: 'flex-end' }}>>>>>>>> master
+    <div style={{ justifyContent: "flex-end" }}>
       <Home
-        categories={props.categories}
+        appCategories={props.appCategories}
+        appConventions={props.appConventions}
+        user={props.user}
+        categoriesChecked={props.categoriesChecked}
         page={"Home page"}
         secondTitle={"Suggested for you"}
         style={{ display: "flex" }}
@@ -168,12 +180,16 @@ function Homepage(props) {
   );
 }
 
-function Conventions() {
+function ConventionsPage(props) {
   return (
     <div>
-      <Convention
+      <Conventions
+        appConventions={props.appConventions}
+        user={props.user}
         page={"Conventions"}
         secondTitle={"Last search"}
+        thirdTitle={"Most popular"}
+        fourthTitle={"Based on conventions you attended"}
         style={{ display: "flex" }}
       />
     </div>
@@ -184,6 +200,7 @@ function Schedule() {
   return (
     <div>
       <h2>Schedule</h2>
+      {/* <CalendarP /> */}
     </div>
   );
 }

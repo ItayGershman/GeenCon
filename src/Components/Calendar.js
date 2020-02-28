@@ -7,7 +7,6 @@ const styles = theme => ({
   box: {
     width: 420,
     height: 626,
-    marginLeft: 55,
     marginTop: 20,
     background: "#FFFFFF",
     borderRadius: "10px",
@@ -15,12 +14,15 @@ const styles = theme => ({
       background: 'linear-gradient(179.52deg, #74FF82 -13.56%, #1949F5 158.3%)',
       "-webkit-background-clip": 'text',
       "-webkit-text-fill-color": 'transparent',
+      color: 'green',
     },
     '& .flex-2':{
       background: 'linear-gradient(179.52deg, #74FF82 -13.56%, #1949F5 158.3%)',
+      color: 'white',
     },
     '& .selected':{
       color: 'white',
+      zIndex:1
     }
   },
   calendarStyle: {
@@ -44,6 +46,7 @@ class CalendarElement extends Component {
           showHeader={true}
           onDatePicked={d => {
             console.log("onDatePicked", d);
+            return (<div style={{color:'white'}}>d</div>)
           }}
         />
       </div>

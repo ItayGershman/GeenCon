@@ -39,10 +39,9 @@ class Categories extends Component {
         <div>
             <p className={classes.title}><b>Categories</b></p>
             <div className={classes.categories}>
-              {console.log(this.props)}
-              {this.props.categories.categories.map(category =>{
+              {this.props.appCategories.map(category =>{
                 return (
-                <Category name={category.name} img={category.img}/>
+                <Category key={category.name} name={category.name} img={category.img}/>
               )})}
             </div>
         </div>
