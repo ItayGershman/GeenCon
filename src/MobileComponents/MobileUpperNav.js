@@ -6,7 +6,7 @@ import 'typeface-poppins';
 
 
 const styles = theme => ({
-    nav:{
+    nav: {
         position: 'absolute',
         fontFamily: 'Poppins',
         fontStyle: 'normal',
@@ -15,7 +15,7 @@ const styles = theme => ({
         lineHeight: '14px',
         color: '#606060',
     },
-    schedule:{
+    schedule: {
         position: 'relative',
         fontFamily: 'Poppins',
         fontStyle: 'normal',
@@ -25,7 +25,7 @@ const styles = theme => ({
         lineHeight: '14px',
         color: '#606060',
     },
-    conventions:{
+    conventions: {
         position: 'relative',
         fontFamily: 'Poppins',
         fontStyle: 'normal',
@@ -34,9 +34,9 @@ const styles = theme => ({
         left: '170px',
         bottom: '15px',
         lineHeight: '14px',
-        color: '#606060',
+        color: '#31D19E',
     },
-    recycle:{
+    recycle: {
         position: 'relative',
         fontFamily: 'Poppins',
         fontStyle: 'normal',
@@ -57,10 +57,10 @@ class MobileUpperNav extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div className ={classes.nav}>
-                <div className = {classes.schedule}>Schedule</div>
-                <div className = {classes.conventions}>Conventions</div>
-                <div className = {classes.recycle}>Recycle</div>
+            <div className={classes.nav}>
+                <div className={classes.schedule}>Schedule</div>
+                <div className={classes.conventions}>Conventions</div>
+                <div className={classes.recycle}>Recycle</div>
             </div>
 
         );

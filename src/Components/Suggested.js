@@ -1,23 +1,30 @@
-
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import logo from "../images/logo.png";
-import { FaEllipsisH, FaEllipsisV } from "react-icons/fa";
-import Modal from 'react-modal';
-import EventMenu from './EvenetMenu';
+import { FaEllipsisH } from "react-icons/fa";
+import EventMenu from "./EventMenu";
+import moment from "moment";
+import axios from "axios";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { Button } from "@material-ui/core";
+import { categories } from "../Constants/Consts";
 
 const styles = theme => ({
   box: {
     width: 313,
-    height: 164,
-    marginLeft: 67,
+    height: 184,
     background: "#FFFFFF",
     display: "flex",
-    position:'relative'
+    position: "relative",
+    marginBottom: 30
   },
   image: {
-    backgroundImage: `url('${logo}') `,
+    // backgroundImage: `url('${logo}') `,
     width: 109,
     height: 114,
     marginLeft: 13,
@@ -62,9 +69,11 @@ const styles = theme => ({
 class Suggested extends Component {
   constructor(props) {
     super(props);
+    console.log(categories);
     this.state = {
       modal: false,
-      dotsClicked:false
+      dotsClicked: false,
+      attend: false
     };
   }
 
@@ -72,127 +81,126 @@ class Suggested extends Component {
     alert("dots");
   };
 
-
-  dotsClicked = () =>{
-    this.setState({dotsClicked:false});
-  }
-
-  render() {
-    const { classes } = this.props;
-    return (
-      <div
-        className={classes.box}
-      >
-        <div>
-          <img className={classes.image} alt=""></img>
-        </div>
-        <div className={classes.text}>
-          <FaEllipsisV className={classes.dots} onClick={()=>(this.setState({dotsClicked: true}))} />
-          {this.state.dotsClicked === true ? <EventMenu clicked={this.dotsClicked}/> : ''}
-          <p className={classes.headline}>
-            {this.props.title}
-          </p>
-          <p className={classes.lecturer}>By Dr.Itay Dagan</p>
-          <div>
-            <p className={classes.place}>1.1.2020 19:30-21:00</p>
-            <p className={classes.place}>Tel-Aviv</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-
-Suggested.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Suggested);
-=======
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/styles";
-import logo from "../images/logo.png";
-import { FaEllipsisH, FaEllipsisV } from "react-icons/fa";
-
-const styles = theme => ({
-  box: {
-    width: 313,
-    height: 164,
-    marginLeft: 67,
-    background: "#FFFFFF",
-    display: "flex"
-  },
-  image: {
-    backgroundImage: `url('${logo}') `,
-    width: 109,
-    height: 114,
-    marginLeft: 13,
-    marginTop: 23
-  },
-  text: {
-    marginLeft: 13
-  },
-  headline: {
-    fontFamily: "Poppins",
-    fontStyle: "normal",
-    fontWeight: "bold",
-    fontSize: "16px",
-    lineHeight: "24px",
-    color: "#858585",
-    margin: 0
-  },
-  place: {
-    color: "#1CD1A1",
-    fontFamily: "Poppins",
-    fontStyle: "normal",
-    fontWeight: "normal",
-    fontSize: "12px",
-    lineHeight: "30px",
-    margin: 0
-  },
-  lecturer: {
-    fontFamily: "Poppins",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: "14px",
-    lineHeight: "21px",
-    color: "#858585",
-    margin: 0
-  },
-  dots: {
-    marginLeft: 160,
-    cursor: "pointer"
-  }
-});
-
-class Suggested extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: false
-    };
-  }
-
-  dots = () => {
-    alert("dots");
+  dotsClicked = () => {
+    this.setState({ dotsClicked: false });
   };
+
+  attend = conID => {
+    const params = {
+      userID: this.props.user.Au
+    };
+    this.setState({ dotsClicked: false });
+    axios
+      .post(`https://greencon.herokuapp.com/user/attend/${conID}`, params)
+      .then(res => {
+        this.setState({ attend: true });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
+  handleOpen = () => {
+    this.setState({ modal: true });
+  };
+
+  handleClose = () => {
+    this.setState({ modal: false });
+  };
+
+  getConventionImg = category => {
+    console.log(category);
+    switch (category) {
+      case categories[0].name:
+        console.log(`0:categories[0]`);
+        return categories[0].img;
+      case categories[1].name:
+        console.log(`1:categories[1]`);
+        return categories[1].img;
+      case categories[2].name:
+        console.log(`2:categories[2]`);
+        return categories[2].img;
+      case categories[3].name:
+        console.log(`3:categories[3]`);
+        return categories[3].img;
+      case categories[4].name:
+        console.log(`4:categories[4]`);
+        return categories[4].img;
+      case categories[5].name:
+        console.log(`5:categories[5]`);
+        return categories[5].img;
+      default:
+        console.log("Default");
+        return "No img"
+    }
+  };
+
   render() {
-    const { classes } = this.props;
+    const { classes, convention, user } = this.props;
     return (
       <div className={classes.box}>
+        <Dialog
+          open={this.state.modal}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <p
+            onClick={this.handleClose}
+            style={{ paddingLeft: "95%", cursor: "pointer" }}
+          >
+            X
+          </p>
+          <DialogTitle id="alert-dialog-title">
+            Your attendance was added
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              <div>{convention.title}</div>
+              <div>{convention.category}</div>
+              <div>
+                {moment(convention.start).format("D.M.YYYY  ")}
+                {moment(convention.start).format(" h:mm:ss")} -{" "}
+                {moment(convention.end).format("h:mm:ss")}
+              </div>
+              <div>
+                {convention.price === 0 ? "FREE" : `${convention.price}$`}
+              </div>
+              <div>{convention.description}</div>
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
         <div>
-          <img className={classes.image}></img>
+          <img className={classes.image} alt="" src={this.getConventionImg(this.props.convention.category)}></img>
         </div>
         <div className={classes.text}>
-          <FaEllipsisV className={classes.dots} onClick={this.handleShow} />
-          <p className={classes.headline}>
-            Global Warming - Your Responsibility
+          <FaEllipsisH
+            className={classes.dots}
+            onClick={() => this.setState({ dotsClicked: true })}
+          />
+          {this.state.dotsClicked === true ? (
+            <EventMenu
+              clicked={this.dotsClicked}
+              attend={this.attend}
+              handleOpen={this.handleOpen}
+              user={user}
+              conID={convention._id}
+            />
+          ) : (
+            ""
+          )}
+          <p className={classes.headline}>{convention.title}</p>
+          <p className={classes.lecturer}>
+            By {convention.lecturerProfile.firstName}{" "}
+            {convention.lecturerProfile.lastName}
           </p>
-          <p className={classes.lecturer}>By Dr.Itay Dagan</p>
           <div>
-            <p className={classes.place}>1.1.2020 19:30-21:00</p>
-            <p className={classes.place}>Tel-Aviv</p>
+            <p className={classes.place}>
+              {moment(convention.start).format("D.M.YYYY  ")}
+              {moment(convention.start).format(" h:mm:ss")} -{" "}
+              {moment(convention.end).format("h:mm:ss")}
+            </p>
+            <p className={classes.place}>{convention.location}</p>
           </div>
         </div>
       </div>
